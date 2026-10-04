@@ -34,3 +34,5 @@ env_items = {
 empty_values = [key for key, value in env_items.items() if not value or value.strip() == '']
 if empty_values:
     raise ValueError(f"Environment variables not set: {', '.join(empty_values)}")
+
+DIRECTIONS = ["arrival", "departure"]
