@@ -1,5 +1,7 @@
 from ingestion.extract import OpenSkyClient
 from datetime import date, datetime, timedelta, timezone
+from ingestion.load import load_flights
+from ingestion.config import DIRECTIONS, AIRPORTS
 import argparse
 
 def parse_args():
@@ -14,9 +16,11 @@ def main():
         query_date = datetime.now(timezone.utc).date() - timedelta(days=1)  # Default to yesterday's date
 
     client = OpenSkyClient()
-    arrivals = client.get_flights(airport="WMKK", direction="arrival", query_date=query_date)
-
-    print(f"Number of arrivals for WMKK: {len(arrivals)}")
+    for airport in AIRPORTS:
+        for direction in DIRECTIONS:
+            flights = client.get_flights(airport=airport, direction=direction, query_date=query_date)
+            loaded_count = load_flights(flights, airport=airport, direction=direction, query_date=query_date)
+            print(f"{airport} {direction} {query_date}: {loaded_count} rows loaded into the database.")
 
 if __name__ == "__main__":
     main()

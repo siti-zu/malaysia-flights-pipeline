@@ -36,3 +36,4 @@ if empty_values:
     raise ValueError(f"Environment variables not set: {', '.join(empty_values)}")
 
 DIRECTIONS = ["arrival", "departure"]
+AIRPORTS = ["WMKK", "WMSA", "WMKP", "WBKK"]
