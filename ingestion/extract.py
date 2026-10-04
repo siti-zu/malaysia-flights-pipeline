@@ -1,7 +1,16 @@
-import requests
+from dataclasses import dataclass
 from datetime import datetime, timezone
+
+import requests
+
 from ingestion.auth import TokenManager
 from ingestion.config import BASE_URL, DIRECTIONS, REQUEST_TIMEOUT
+
+@dataclass
+class FlightsResult:
+    flights: list[dict]
+    status_code: int
+    credits_left: int | None = None
 
 class OpenSkyClient:
     def __init__(self, token_manager=None):
@@ -30,9 +39,21 @@ class OpenSkyClient:
         print(f"Status Code: {response.status_code}")
         print(f"X-Rate-Limit-Remaining: {response.headers.get('X-Rate-Limit-Remaining')}")
 
+        credits_left = response.headers.get("X-Rate-Limit-Remaining")
+
         if response.status_code == 404:
             print(f"No data found for {airport} {direction} flights on {query_date}.")
-            return []
+            return FlightsResult(flights=[], status_code=response.status_code, credits_left=int(credits_left) if credits_left is not None else None)
 
         response.raise_for_status()
-        return response.json()
+
+        return FlightsResult(
+            flights=response.json(),
+            status_code=response.status_code,
+            credits_left=int(credits_left) if credits_left is not None else None
+        )
+
+def parse_remaining_credits(response):
+    """Return the X-Rate-Limit-Remaining header as an int, or None if missing."""
+    value = response.headers.get("X-Rate-Limit-Remaining")
+    return int(value) if value is not None else None
