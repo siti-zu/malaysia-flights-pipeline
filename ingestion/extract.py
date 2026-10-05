@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3 import Retry
 
 from ingestion.auth import TokenManager
 from ingestion.config import BASE_URL, DIRECTIONS, REQUEST_TIMEOUT
@@ -15,7 +17,7 @@ class FlightsResult:
 class OpenSkyClient:
     def __init__(self, token_manager=None):
         self.token_manager = token_manager or TokenManager()
-        self.session = requests.Session()
+        self.session = create_retry_session()
 
     def _get_day_window(self, query_date):
         """Return the begin and end timestamps for the specified date in UTC."""
@@ -57,3 +59,19 @@ def parse_remaining_credits(response):
     """Return the X-Rate-Limit-Remaining header as an int, or None if missing."""
     value = response.headers.get("X-Rate-Limit-Remaining")
     return int(value) if value is not None else None
+
+def create_retry_session():
+    session = requests.Session()
+
+    retry_strategy = Retry(
+        total=3,
+        backoff_factor=1, 
+        status_forcelist=[500, 502, 503, 504],
+        raise_on_status=False
+    )
+
+    adapter = HTTPAdapter(max_retries=retry_strategy)
+
+    session.mount("https://", adapter)
+
+    return session
