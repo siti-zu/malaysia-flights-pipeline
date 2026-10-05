@@ -1,0 +1,162 @@
+version: 2
+
+models:
+  - name: stg_flights
+    description: "One row per flight, cleaned from raw.flights."
+    columns:
+      - name: airport
+        description: "The airport code."
+        data_tests:
+          - not_null
+
+      - name: direction
+        description: "The direction of the flight."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['arrival', 'departure']
+
+      - name: query_date
+        description: "The date when the query was made."
+        data_tests:
+          - not_null
+
+      - name: run_id
+        description: "The ID of the run."
+        data_tests:
+          - not_null
+
+      - name: icao24
+        description: "The ICAO24 code of the aircraft."
+        data_tests:
+          - not_null
+
+      - name: callsign
+        description: "The callsign of the flight."
+
+      - name: airline_code
+        description: "The first 3 characters of the callsign"
+
+      - name: first_seen
+        description: >
+          When OpenSky's receivers first picked up the aircraft (UTC).
+          Can be null in rare cases where OpenSky sent no value
+          (1 row as of Oct 2026).
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+
+      - name: last_seen
+        description: "When the flight was last seen by OpenSky's receivers."
+        data_tests:
+          - not_null
+
+      - name: est_arrival_airport
+        description: "The estimated arrival airport."
+
+      - name: est_departure_airport
+        description: "The estimated departure airport."
+
+      - name: arrival_airport_candidates_count
+        description: "The number of candidate arrival airports."
+        data_tests:
+          - not_null
+
+      - name: est_arrival_airport_vert_distance
+        description: "The vertical distance to the estimated arrival airport."
+
+      - name: est_arrival_airport_horiz_distance
+        description: "The horizontal distance to the estimated arrival airport."
+
+      - name: departure_airport_candidates_count
+        description: "The number of candidate departure airports."
+        data_tests:
+          - not_null
+
+      - name: est_departure_airport_vert_distance
+        description: "The vertical distance to the estimated departure airport."
+
+      - name: est_departure_airport_horiz_distance
+        description: "The horizontal distance to the estimated departure airport."
+
+  - name: stg_airports
+    description: "One row per large or medium airport worldwide, from the OurAirports seed."
+    columns:
+      - name: airport_code
+        description: "The 4-letter ICAO airport code."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: airport_name
+        description: "The airport name."
+        data_tests:
+          - not_null
+
+      - name: city
+        description: "The city or municipality the airport serves. Blank for a few airports."
+
+      - name: country_code
+        description: "The ISO 3166-1 alpha-2 country code."
+        data_tests:
+          - not_null
+
+      - name: latitude
+        description: "Latitude in decimal degrees."
+        data_tests:
+          - not_null
+
+      - name: longitude
+        description: "Longitude in decimal degrees."
+        data_tests:
+          - not_null
+
+  - name: stg_airlines
+    description: "One row per airline ICAO code, from the OpenFlights seed."
+    columns:
+      - name: airline_code
+        description: "The 3-letter ICAO airline code, matching the first 3 characters of a callsign."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: airline_name
+        description: "The airline name."
+        data_tests:
+          - not_null
+
+  - name: stg_aircraft
+    description: "One row per aircraft seen in raw.flights, from OpenSky's aircraft database."
+    columns:
+      - name: icao24
+        description: "The ICAO24 transponder address of the aircraft, lowercase."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: registration
+        description: "The aircraft registration, e.g. 9M-AHL."
+
+      - name: aircraft_manufacturer
+        description: "The manufacturer name. Often blank."
+
+      - name: aircraft_model
+        description: "The aircraft model, e.g. A320 216."
+
+      - name: aircraft_type_code
+        description: "The ICAO aircraft type designator, e.g. A320."
+
+      - name: operator
+        description: "The operator name. Blank for most aircraft."
+
+      - name: operator_icao
+        description: "The operator's ICAO airline code."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_airlines')
+                field: airline_code
+              config:
+                severity: warn
