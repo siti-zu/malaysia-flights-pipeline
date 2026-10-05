@@ -130,19 +130,20 @@ def main():
 
     client = OpenSkyClient()
     total_failures = 0
-    stopped_early = False
+    days_processed = 0
 
     for query_date in query_dates:
         failures, stopped_early = run_day(client, query_date)
         total_failures += failures
+        days_processed += 1
 
         if stopped_early:
             break
 
-    print(f"Processed {len(query_dates) - total_failures} of {len(query_dates)} days, {total_failures} calls failed.")
+    print(f"Processed {days_processed} of {len(query_dates)} days, {total_failures} calls failed.")
 
     if total_failures:
-            sys.exit(1)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
