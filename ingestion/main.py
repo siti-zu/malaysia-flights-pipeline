@@ -1,12 +1,14 @@
+import argparse
 from datetime import date, datetime, timedelta, timezone
 import itertools
 import sys
+import uuid
 
+import psycopg
 import requests
-import argparse
 
 from ingestion.extract import OpenSkyClient, parse_remaining_credits
-from ingestion.load import load_flights, log_api_run
+from ingestion.load import get_connection, load_flights, log_api_run
 from ingestion.config import DIRECTIONS, AIRPORTS
 
 # Errors that mean every remaining call will fail too, so stop the run.
@@ -31,7 +33,6 @@ def parse_args():
     return args
 
 def validate_and_fill_args(parser, args):
-    # UTC to match the default query date in main().
     yesterday = yesterday_utc()
 
     if args.end is not None and args.start is None:
@@ -67,7 +68,7 @@ def get_query_dates(args):
     else:
         return [yesterday_utc()]
 
-def run_day(client, query_date):
+def run_day(client, conn, query_date, run_id):
     pairs = list(itertools.product(AIRPORTS, DIRECTIONS))
     attempted = failures = 0
     stopped_early = False
@@ -88,7 +89,12 @@ def run_day(client, query_date):
             row_count = len(result.flights)
 
             load_flights(
-                result.flights, airport=airport, direction=direction, query_date=query_date
+                conn,
+                result.flights,
+                airport=airport,
+                direction=direction,
+                query_date=query_date,
+                run_id=run_id,
             )
             print(f"{label}: {row_count} rows loaded")
 
@@ -105,15 +111,21 @@ def run_day(client, query_date):
             failures += 1
             print(f"{label}: {error_message}")
 
-        log_api_run(
-            airport=airport,
-            direction=direction,
-            query_date=query_date,
-            status_code=status_code,
-            row_count=row_count,
-            credits_left=credits_left,
-            error_message=error_message,
-        )
+        try:
+            log_api_run(
+                conn,
+                airport=airport,
+                direction=direction,
+                query_date=query_date,
+                run_id=run_id,
+                status_code=status_code,
+                row_count=row_count,
+                credits_left=credits_left,
+                error_message=error_message,
+            )
+        except psycopg.OperationalError as e:
+            print(f"{label}: could not write to api_runs ({e}). Stopping run.")
+            stopped_early = True
 
         if stopped_early:
             print(f"Stopping run on {query_date}: HTTP {status_code} will affect all remaining calls.")
@@ -128,17 +140,27 @@ def main():
     args = parse_args()
     query_dates = get_query_dates(args)
 
+    try:
+        conn = get_connection()
+    except psycopg.OperationalError as e:
+        print(f"Database connection failed: {e}.\nDatabase not reachable. Is Docker running?")
+        sys.exit(1)
+
     client = OpenSkyClient()
     total_failures = 0
     days_processed = 0
 
-    for query_date in query_dates:
-        failures, stopped_early = run_day(client, query_date)
-        total_failures += failures
-        days_processed += 1
+    run_id = uuid.uuid4()
 
-        if stopped_early:
-            break
+    # Closes the connection when the run ends, even on an exception.
+    with conn:
+        for query_date in query_dates:
+            failures, stopped_early = run_day(client, conn, query_date, run_id)
+            total_failures += failures
+            days_processed += 1
+
+            if stopped_early:
+                break
 
     print(f"Processed {days_processed} of {len(query_dates)} days, {total_failures} calls failed.")
 

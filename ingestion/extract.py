@@ -38,21 +38,19 @@ class OpenSkyClient:
             "end": end
         }
         response = self.session.get(f"{BASE_URL}/flights/{direction}", headers=headers, params=params, timeout=REQUEST_TIMEOUT)
-        print(f"Status Code: {response.status_code}")
-        print(f"X-Rate-Limit-Remaining: {response.headers.get('X-Rate-Limit-Remaining')}")
 
-        credits_left = response.headers.get("X-Rate-Limit-Remaining")
+        credits_left = parse_remaining_credits(response)
 
         if response.status_code == 404:
             print(f"No data found for {airport} {direction} flights on {query_date}.")
-            return FlightsResult(flights=[], status_code=response.status_code, credits_left=int(credits_left) if credits_left is not None else None)
+            return FlightsResult(flights=[], status_code=response.status_code, credits_left=credits_left)
 
         response.raise_for_status()
 
         return FlightsResult(
             flights=response.json(),
             status_code=response.status_code,
-            credits_left=int(credits_left) if credits_left is not None else None
+            credits_left=credits_left
         )
 
 def parse_remaining_credits(response):
