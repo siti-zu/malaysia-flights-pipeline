@@ -31,7 +31,11 @@ SELECT
     run_id,
     icao24,
     callsign,
-    LEFT(callsign, 3) AS airline_code,
+    -- Only airline flights (3 letters + a digit, e.g. AXM6114) get a code.
+    -- Registrations like 9MSAB and other callsigns get NULL.
+    CASE
+        WHEN callsign ~ '^[A-Z]{3}[0-9]' THEN LEFT(callsign, 3)
+    END AS airline_code,
     first_seen,
     last_seen,
     est_arrival_airport,

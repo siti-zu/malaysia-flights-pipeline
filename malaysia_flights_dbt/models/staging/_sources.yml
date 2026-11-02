@@ -5,4 +5,13 @@ sources:
     schema: raw
     tables:
       - name: flights
+
       - name: api_runs
+        description: "One row per OpenSky API call, successful or not."
+        # `dbt source freshness` warns if the newest call is over 26 hours old,
+        # which means the daily run has stopped. 26 rather than 24 leaves slack
+        # for a run that starts or finishes a little late.
+        config:
+          loaded_at_field: run_at
+          freshness:
+            warn_after: {count: 26, period: hour}

@@ -1,0 +1,147 @@
+version: 2
+
+models:
+  - name: fct_flights # model
+    description: "One row per flight, deduplicated across all dates on icao24 + first_seen."
+    columns:
+      - name: flight_id
+        description: "md5 of icao24 and first_seen. Unique, which proves the dedupe holds on every build."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: icao24
+        description: "The ICAO24 transponder address of the aircraft."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_aircraft')
+                field: icao24
+              config:
+                severity: warn
+
+      - name: flight_date
+        description: "The date the flight was first seen, in Malaysia time (Asia/Kuala_Lumpur)."
+        data_tests:
+          - not_null
+
+      - name: first_seen
+        description: "When the flight was first seen by OpenSky's receivers."
+        data_tests:
+          - not_null
+
+      - name: last_seen
+        description: "When the flight was last seen by OpenSky's receivers."
+        data_tests:
+          - not_null
+
+      - name: flight_duration_minutes # column name
+        description: "last_seen minus first_seen, in minutes. Tracked time, roughly the airborne portion, not block time."
+        data_tests:
+          - greater_than_zero # custom test defined in tests/generic/greater_than_zero.sql
+
+      - name: airline_code
+        description: "The first 3 characters of the callsign. Not every callsign is an airline code: private and military callsigns don't match dim_airline."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_airline')
+                field: airline_code
+              config:
+                severity: warn
+
+      - name: est_departure_airport
+        description: "The estimated departure airport (ICAO). Often null; small airfields aren't in dim_airport."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_airport')
+                field: airport_code
+              config:
+                severity: warn
+
+      - name: est_arrival_airport
+        description: "The estimated arrival airport (ICAO). Often null; small airfields aren't in dim_airport."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_airport')
+                field: airport_code
+              config:
+                severity: warn
+
+  - name: dim_airport
+    description: "One row per large or medium airport worldwide. Joins to fct_flights on est_departure_airport or est_arrival_airport."
+    columns:
+      - name: airport_code
+        description: "The 4-letter ICAO airport code."
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_airline
+    description: "One row per airline ICAO code. Joins to fct_flights on airline_code."
+    columns:
+      - name: airline_code
+        description: "The 3-letter ICAO airline code."
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_aircraft
+    description: "One row per aircraft seen in the flight data. Joins to fct_flights on icao24."
+    columns:
+      - name: icao24
+        description: "The ICAO24 transponder address of the aircraft."
+        data_tests:
+          - unique
+          - not_null
+
+  - name: rpt_top_routes
+    description: "One row per route, ranked by flights, with airport names and cities. Only flights where both airports are known."
+    # Grain: one row per route. The unique test on route below checks it.
+    columns:
+      - name: route
+        description: "Departure and arrival ICAO codes, e.g. WMKK-WSSS."
+        data_tests:
+          - unique
+          - not_null
+      - name: flights
+        description: "Number of deduplicated flights on the route."
+        data_tests:
+          - greater_than_zero
+
+  - name: rpt_busiest_hours
+    description: "One row per home airport and hour of the day in Malaysia time (0-23), with departures, arrivals and a rank within each airport."
+    data_tests:
+      # Grain: one row per airport and hour. A duplicate code in dim_airport would double rows.
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [airport_code, hour_of_day]
+    columns:
+      - name: airport_code
+        description: "One of the four home airports."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: "{{ var('home_airports') }}"
+      - name: hour_of_day
+        description: "Hour of the day in Malaysia time. Departures use first_seen, arrivals use last_seen."
+        data_tests:
+          - not_null
+
+  - name: rpt_flights_per_airline
+    description: "One row per airline code, ranked by flights, with airline names. Null airline_name means the code isn't a known airline."
+    data_tests:
+      # Grain: one row per airline code. Uses the combination test rather than
+      # unique so the null airline_code row (flights with no callsign) is checked too.
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [airline_code]
+    columns:
+      - name: flights
+        description: "Number of deduplicated flights."
+        data_tests:
+          - greater_than_zero

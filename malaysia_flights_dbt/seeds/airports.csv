@@ -27,7 +27,7 @@ AYWK,Wewak International Airport,Wewak,PG,-3.58383011818,143.669006348
 BGAA,Aasiaat Airport,Aasiaat,GL,68.721802,-52.784698
 BGCO,Neerlerit Inaat Airport,Neerlerit Inaat,GL,70.743103,-22.650499
 BGGH,Nuuk International Airport,Nuuk,GL,64.191066,-51.67914
-BGJN,Ilulissat Airport,Ilulissat,GL,69.243202,-51.057098
+BGJN,Ilulissat Airport,Ilulissat,GL,69.245641,-51.052243
 BGKK,Kulusuk Airport,Kulusuk,GL,65.573601,-37.1236
 BGQO,Qaqortoq Airport,Qaqortoq,GL,60.76383,-46.065001
 BGQQ,Qaanaaq Airport,Qaanaaq,GL,77.488602,-69.388702
@@ -437,6 +437,7 @@ EDJA,Memmingen Allgau Airport,Memmingen,DE,47.988092,10.238248
 EDLI,Bielefeld Airport,Bielefeld,DE,51.964722,8.544444
 EDLN,Mönchengladbach Airport,Mönchengladbach,DE,51.230278,6.504444
 EDLP,Paderborn Lippstadt Airport,Büren,DE,51.612527,8.617459
+EDLS,Stadtlohn-Vreden Airfield,Stadtlohn,DE,51.995834,6.840556
 EDLV,Weeze (Niederrhein) Airport,Weeze,DE,51.601362,6.141228
 EDLW,Dortmund Airport,Dortmund,DE,51.518299,7.61224
 EDMA,Augsburg Airport,Augsburg,DE,48.425278,10.931667
@@ -791,7 +792,7 @@ FAFB,Ficksburg Sentraoes Airport,Ficksburg,ZA,-28.82309913635254,27.908899307250
 FAGC,Grand Central Airport,Midrand,ZA,-25.986299514799995,28.1401004791
 FAGG,George Airport,George,ZA,-34.0056,22.378902
 FAGM,Rand Airport,Johannesburg,ZA,-26.2425,28.151199
-FAHR,Harrismith Airport,Harrismith,ZA,-28.2351,29.106199
+FAHR,Harrismith Airport,Harrismith,ZA,-28.234936,29.106361
 FAHS,Eastgate Airport / Air Force Base Hoedspruit,Hoedspruit,ZA,-24.361864,31.052921
 FAKD,P C Pelser Airport,Klerksdorp,ZA,-26.871099,26.718
 FAKM,Kimberley Airport,Kimberley,ZA,-28.805401,24.764872
@@ -800,16 +801,16 @@ FAKU,Johan Pienaar Airport,Kuruman,ZA,-27.456596,23.411946
 FAKZ,Kleinsee Airport,Kleinsee,ZA,-29.6884002686,17.093999862700002
 FALA,Lanseria International Airport,Johannesburg,ZA,-25.938964,27.926642
 FALC,Lime Acres Finsch Mine Airport,Lime Acres,ZA,-28.36009979248047,23.43910026550293
-FALE,King Shaka International Airport,Durban,ZA,-29.6144444444,31.1197222222
-FALW,Langebaanweg Airport,Langebaanweg,ZA,-32.968898773199996,18.1602993011
+FALE,King Shaka International Airport,Durban,ZA,-29.613381,31.117942
+FALW,Langebaanweg Air Force Base,Langebaanweg,ZA,-32.968899,18.160299
 FALY,Ladysmith Airport,Ladysmith,ZA,-28.5816993713,29.749700546299998
 FAMD,Malamala Airport,Malamala,ZA,-24.816866,31.544085
 FAMG,Margate Airport,Margate,ZA,-30.8574008942,30.343000412
-FAMM,Mmabatho International Airport,Mafeking,ZA,-25.798400878900004,25.548000335699996
+FAMM,George Dick Montshioa Airport,Mafeking,ZA,-25.798401,25.548
 FAMS,Morningside Farm Airport,Silveroaks,ZA,-25.7045001984,26.9090003967
 FAMU,Mkuze Airport,Mkuze,ZA,-27.626101,32.0443
 FANC,Newcastle Airport,Newcastle,ZA,-27.7705993652,29.976900100699996
-FAOH,Oudtshoorn Airport,Oudtshoorn,ZA,-33.6069984436,22.188999176
+FAOH,Oudtshoorn Airport,Oudtshoorn,ZA,-33.606998,22.188999
 FAOR,O.R. Tambo International Airport,Johannesburg,ZA,-26.140081,28.246801
 FAPE,Chief Dawid Stuurman International Airport,Gqeberha (Port Elizabeth),ZA,-33.989715,25.617353
 FAPG,Plettenberg Bay Airport,Plettenberg Bay,ZA,-34.08816,23.328723
@@ -830,7 +831,7 @@ FASD,Saldanha/Vredenburg Airport,Saldanha-Vredenburg,ZA,-32.9641,17.969299
 FASK,Swartkop Air Force Base,Pretoria,ZA,-25.8097,28.1646
 FASS,Sishen Airport,Sishen,ZA,-27.6486,22.9993
 FASZ,Skukuza Airport,Skukuza,ZA,-24.96085,31.588587
-FATZ,Tzaneen Airport,Tzaneen,ZA,-23.8244,30.3293
+FATZ,Tzaneen Airport,Tzaneen,ZA,-23.822341,30.327244
 FAUL,Prince Mangosuthu Buthelezi Airport,Ulundi,ZA,-28.3206005096,31.4165000916
 FAUP,Upington Airport,Upington,ZA,-28.400246,21.263592
 FAUT,K. D. Matanzima Airport,Mthatha,ZA,-31.546363184900002,28.6733551025
@@ -840,7 +841,7 @@ FAVR,Vredendal Airport,Vredendal,ZA,-31.641000747680664,18.5447998046875
 FAVV,Vereeniging Airport,Vereeniging,ZA,-26.566401,27.9608
 FAWB,Wonderboom Airport,Pretoria,ZA,-25.6539,28.224199
 FAWK,Waterkloof Air Force Base,Pretoria,ZA,-25.829999923699997,28.222499847399998
-FAYP,Ysterplaat Air Force Base,Cape Town,ZA,-33.9002,18.498301
+FAYP,Ysterplaat Air Force Base,Cape Town,ZA,-33.90225,18.498281
 FBJW,Jwaneng Airport,Jwaneng,BW,-24.602301,24.691
 FBKE,Kasane International Airport,Kasane,BW,-17.831653,25.166195
 FBMN,Maun International Airport,Maun,BW,-19.970491,23.431409
@@ -865,7 +866,7 @@ FGSL,Malabo International Airport,Malabo,GQ,3.75527,8.70872
 FHAW,RAF Ascension Island,Cat Hill,SH,-7.970179,-14.392744
 FHSH,Saint Helena International Airport,Jamestown,SH,-15.958898,-5.646066
 FIMP,Sir Seewoosagur Ramgoolam International Airport,Plaine Magnien,MU,-20.430201,57.683601
-FIMR,Sir Charles Gaetan Duval Airport,Port Mathurin,MU,-19.756696,63.359326
+FIMR,Sir Charles Gaetan Duval Airport,Port Mathurin,MU,-19.757668,63.36103
 FJDG,Naval Support Facility Diego Garcia,Diego Garcia,IO,-7.31327,72.411102
 FKKC,Tiko Airport,Tiko,CM,4.08919000626,9.360529899600001
 FKKD,Douala International Airport,Douala,CM,4.00608,9.71948
@@ -2054,7 +2055,7 @@ LEJR,Jerez Airport,Jerez de la Frontera,ES,36.744598,-6.06011
 LELC,San Javier Airport,San Javier,ES,37.775002,-0.812389
 LELN,León Airport,La Virgen del Camino,ES,42.590709,-5.653406
 LEMD,Adolfo Suárez Madrid–Barajas Airport,Madrid,ES,40.493407,-3.572249
-LEMG,Málaga-Costa del Sol Airport,Málaga,ES,36.6749,-4.49911
+LEMG,Málaga-Costa del Sol Airport,Málaga,ES,36.678234,-4.500208
 LEMH,Menorca Airport,Mahón (Maó),ES,39.862598,4.21865
 LEMI,Region of Murcia International Airport,Corvera,ES,37.802852,-1.124884
 LEMO,Moron Air Base,Morón,ES,37.17490005493164,-5.615940093994141
@@ -2222,7 +2223,7 @@ LGEL,Elefsis Air Base,Elefsina,GR,38.063801,23.556
 LGHI,Chios Island National Airport,Chios Island,GR,38.34320068359375,26.140600204467773
 LGIO,Ioannina King Pyrrhus National Airport,Ioannina,GR,39.6964,20.8225
 LGIR,Heraklion International Nikos Kazantzakis Airport,Heraklion,GR,35.339699,25.1803
-LGKF,Kefallinia Airport,Kefallinia Island,GR,38.12009811401367,20.500499725341797
+LGKF,"Kefalonia International Airport ""Anna Pollatou""",Kefallinia Island,GR,38.120098,20.5005
 LGKL,Kalamata Airport,Kalamata,GR,37.06829833984375,22.02549934387207
 LGKO,"Kos International Airport ""Ippokratis""",Kos Island,GR,36.794523,27.09115
 LGKP,Karpathos Airport,Karpathos Island,GR,35.421398,27.146
@@ -2242,7 +2243,7 @@ LGST,Sitia Airport,Crete Island,GR,35.21609878540039,26.101299285888672
 LGTG,Tanagra Air Base,Tanagra,GR,38.339802,23.565001
 LGTL,(*)Kasteli Hellenic Air Force Base,Kasteli,GR,35.191341,25.326588
 LGTS,Thessaloniki Macedonia International Airport,Thessaloniki,GR,40.51928,22.970009
-LGZA,Zakynthos International Airport Dionysios Solomos,Zakynthos,GR,37.7509,20.8843
+LGZA,"Zakynthos International Airport ""Dionysios Solomos""",Zakynthos,GR,37.7509,20.8843
 LHBP,Budapest Liszt Ferenc International Airport,Budapest,HU,47.43018,19.262393
 LHDC,Debrecen International Airport,Debrecen,HU,47.489469,21.616278
 LHKA,Kalocsa-Foktő Airfield,Kalocsa,HU,46.55149,18.942299
@@ -2279,6 +2280,7 @@ LIEE,Cagliari Elmas Airport,Cagliari,IT,39.251499,9.05428
 LIEO,Olbia Costa Smeralda Airport,Olbia (SS),IT,40.898953,9.518457
 LIET,Tortolì Airport,Arbatax,IT,39.9188,9.68298
 LILE,Biella-Cerrione Airfield,Cerrione (BI),IT,45.4953,8.10278
+LILG,Vergiate Airfield,Vergiate (VA),IT,45.712633,8.700714
 LILN,Varese-Venegono Airport,Venegono Superiore (VA),IT,45.742199,8.888233
 LIMA,Torino-Aeritalia Airport,Torino (TO),IT,45.084444,7.603056
 LIMC,Milan Malpensa International Airport,Ferno (VA),IT,45.6306,8.72811
@@ -2825,6 +2827,7 @@ OAMS,Mazar-i-Sharif International Airport,Mazar-i-Sharif,AF,36.70412,67.210459
 OAUZ,Kunduz Airport,Kunduz,AF,36.6651,68.910797
 OBBI,Bahrain International Airport,Manama,BH,26.267295,50.63764
 OBBS,Sheik Isa Air Base,Sitrah,BH,25.9184,50.590599
+OBKH,Sakhir Air Base,Zallaq,BH,26.034533,50.524544
 OEAB,Abha International Airport,Abha,SA,18.2404,42.656601
 OEAD,Aradah Airport,Ardah,SA,21.226999,55.2673
 OEAH,Al-Ahsa International Airport,Hofuf,SA,25.285299,49.485199
@@ -2938,6 +2941,7 @@ OKKK,Kuwait International Airport,Kuwait City,KW,29.224487,47.969813
 OLBA,Beirut Rafic Hariri International Airport,Beirut,LB,33.819833,35.487443
 OLKA,Rene Mouawad Air Base,Tripoli,LB,34.589298,36.011299
 OLRA,Rayak Air Base,Rayak,LB,33.850799560546875,35.987701416015625
+OM11,Abu Dhabi Northeast Airport - Suweihan Air Base,Abu Dhabi,AE,24.526793,54.974812
 OMAA,Zayed International Airport,Abu Dhabi,AE,24.440966,54.649237
 OMAD,Al Bateen Executive Airport,Abu Dhabi,AE,24.427062,54.459866
 OMAL,Al Ain International Airport,Al Ain,AE,24.2617,55.6092
@@ -3265,6 +3269,7 @@ RKPD,Jeongseok Airport,Jeju Island,KR,33.3996009827,126.711997986
 RKPK,Gimhae International Airport,Busan,KR,35.179501,128.938004
 RKPS,Sacheon Airport / Sacheon Air Base,Sacheon,KR,35.088591,128.071747
 RKPU,Ulsan Airport,Ulsan,KR,35.59349823,129.352005005
+RKRB,Bucheon (G-103) Airfield,Ilsin-ro,KR,37.474918,126.747272
 RKSG,Camp Humphreys (A-511) Desiderio Army Airfield,Pyeongtaek,KR,36.962363,127.031126
 RKSI,Incheon International Airport,Seoul,KR,37.469101,126.450996
 RKSM,Seoul Air Base (K-16),Seongnam,KR,37.444744,127.112718
@@ -3319,6 +3324,7 @@ RPMZ,Zamboanga International Airport,Zamboanga,PH,6.92242,122.059998
 RPSP,Bohol-Panglao International Airport,Panglao,PH,9.573045,123.770143
 RPUB,Loakan Airport,Baguio,PH,16.375034,120.619949
 RPUD,Daet Airport,Daet,PH,14.1292,122.980003
+RPUF,Basa Air Base,Floridablanca,PH,14.98724,120.492554
 RPUH,San Jose Airport,San Jose,PH,12.361499786399998,121.04699707
 RPUM,Mamburao Airport,Mamburao,PH,13.208048,120.605457
 RPUN,Naga Airport,Naga,PH,13.58489990234375,123.2699966430664
@@ -3598,15 +3604,16 @@ SETN,Carlos Concha Torres International Airport,Tachina,EC,0.978519,-79.626602
 SETR,Tarapoa Airport,Tarapoa,EC,-0.122956,-76.337799
 SETU,Lieutenant Colonel Luis A. Mantilla International Airport,Tulcán,EC,0.809506,-77.708099
 SGAS,Silvio Pettirossi International Airport,Asunción,PY,-25.240156,-57.519227
-SGAY,Aeropuerto Nacional Juan de Ayolas,Ayolas,PY,-27.378379,-56.856791
+SGAY,Juan de Ayolas National Airport,Ayolas,PY,-27.37052,-56.854052
 SGCO,Lieutenant Colonel Carmelo Peralta National Airport,Concepción,PY,-23.441609,-57.427039
 SGEN,Teniente Ramon A. Ayub Gonzalez International Airport,Encarnación,PY,-27.227537,-55.837584
-SGES,Guaraní International Airport,Ciudad del Este,PY,-25.457186,-54.839544
-SGGR,Aeropuerto Nacional de Salto del Guaira,Salto del Guaira,PY,-24.032844,-54.35267
+SGES,Guaraní International Airport,Ciudad del Este,PY,-25.4555,-54.843601
+SGGR,Saltos del Guairá Airport,Salto del Guaira,PY,-24.032263,-54.350835
 SGIB,Itaipú Airport,Itaipú,PY,-25.407818,-54.619457
 SGME,Dr. Luis María Argaña International Airport,Mariscal Estigarribia,PY,-22.046499,-60.6217
-SGPI,Aeródromo Don Carlos Miguel Gimenez,Pilar,PY,-26.881981,-58.319067
-SGPJ,Aeropuerto Nacional Dr. Augusto Roberto Fuster,Pedro Juan Caballero,PY,-22.641427,-55.829993
+SGOV,Coronel Oviedo National Airport,Coronel Oviedo,PY,-25.517347,-56.406555
+SGPI,Don Carlos Miguel Gimenez Airport,Pilar,PY,-26.882079,-58.318181
+SGPJ,Dr. Augusto Roberto Fuster International Airport,Pedro Juan Caballero,PY,-22.641427,-55.829993
 SGST,Santa Teresa Airport,Santa Teresa,PY,-22.622487,-56.634393
 SKAP,Gomez Nino Apiay Air Base,Apiay,CO,4.07607,-73.5627
 SKAR,El Eden Airport,Armenia,CO,4.45278,-75.7664
@@ -4137,6 +4144,7 @@ VAGD,Gondia Airport,Gondia,IN,21.526817,80.290347
 VAHS,Rajkot International Airport,Rajkot,IN,22.378824,71.039391
 VAID,Devi Ahilya Bai Holkar International Airport,Indore,IN,22.721404,75.80051
 VAJB,Jabalpur Airport,Jabalpur,IN,23.177799,80.052002
+VAJJ,Juhu Aerodrome,Mumbai,IN,19.098100662231445,72.83419799804688
 VAJM,Jamnagar Airport,Jamnagar,IN,22.465499877929688,70.01260375976562
 VAKE,Kandla Airport,Kandla,IN,23.1127,70.100304
 VAKP,Kolhapur Airport,Kolhapur,IN,16.6647,74.289398
@@ -4176,6 +4184,7 @@ VEAN,Along Airport,,IN,28.17530059814453,94.802001953125
 VEAP,Maa Mahamaya Airport,Ambikapur,IN,22.98753,83.19612
 VEAT,Agartala - Maharaja Bir Bikram Airport,Agartala,IN,23.886999,91.240402
 VEAY,Maharshi Valmiki International Airport,Faizabad,IN,26.747736,82.163664
+VEBA,Behala Airport,Kolkata,IN,22.50423,88.293427
 VEBD,Bagdogra Airport,Siliguri,IN,26.6812,88.328598
 VEBI,Shillong Airport,Shillong,IN,25.70359992980957,91.97869873046875
 VEBN,Lal Bahadur Shastri International Airport,Varanasi,IN,25.452171,82.862549
@@ -4204,6 +4213,7 @@ VEMN,Dibrugarh Airport,Dibrugarh,IN,27.4839000702,95.0168991089
 VEMR,Dimapur Airport,Dimapur,IN,25.883899688699998,93.77110290530001
 VEMZ,Muzaffarpur Airport,Muzaffarpur,IN,26.119101,85.313698
 VEPH,Panagarh Air Force Station,,IN,23.474300384499998,87.4274978638
+VEPI,Barrackpore Air Force Station,Barrackpore,IN,22.7810001373,88.3591995239
 VEPT,Jay Prakash Narayan Airport,Patna,IN,25.591299,85.087997
 VERC,Birsa Munda Airport,Ranchi,IN,23.314300537100003,85.3217010498
 VERK,Rourkela Airport,Rourkela,IN,22.256571,84.815193
@@ -4221,6 +4231,8 @@ VGJR,Jessore Airport,Jashore (Jessore),BD,23.1838,89.160797
 VGRJ,Shah Makhdum Airport,Rajshahi,BD,24.437201,88.616501
 VGSD,Saidpur Airport,Saidpur,BD,25.759199,88.908897
 VGSY,Osmany International Airport,Sylhet,BD,24.963993,91.864749
+VGTJ,Tejgaon Airport,Dhaka,BD,23.778507,90.382719
+VGZR,Hazrat Shahjalal International Airport,Dhaka,BD,23.843347,90.397783
 VHHH,Hong Kong International Airport,Hong Kong,HK,22.31184,113.914862
 VHSK,Shek Kong Air Base,Islands,HK,22.4366,114.080002
 VIAG,Agra Airport / Agra Air Force Station,Agra,IN,27.157975,77.961025
@@ -4234,6 +4246,7 @@ VICG,Shaheed Bhagat Singh International Airport,Chandigarh,IN,30.6735,76.788498
 VIDD,Safdarjung Airport,New Delhi,IN,28.585453,77.203563
 VIDN,Dehradun Jolly Grant Airport,Dehradun (Jauligrant),IN,30.189243,78.176651
 VIDP,Indira Gandhi International Airport,New Delhi,IN,28.55563,77.09519
+VIDX,Hindon Airport / Hindon Air Force Station,Ghaziabad,IN,28.707701,77.358902
 VIGG,Kangra Airport,Kangra,IN,32.164902,76.263018
 VIGR,Gwalior Airport,Gwalior,IN,26.29330062866211,78.22779846191406
 VIHR,Maharaja Agrasen International Airport,Hisar,IN,29.186065,75.74142
@@ -4304,8 +4317,10 @@ VOSR,Sindhudurg Airport,Chipi,IN,16.002552,73.529846
 VOTP,Tirupati International Airport,Tirupati,IN,13.631988,79.539869
 VOTR,Tiruchirappalli International Airport,Tiruchirappalli,IN,10.762915,78.717741
 VOTV,Thiruvananthapuram International Airport,Thiruvananthapuram,IN,8.481889,76.920029
+VOTX,Tambaram Air Force Station,Chennai,IN,12.9072,80.121902
 VOVI,Alluri Sitarama Raju International Airport (Vizag),Visakhapatnam,IN,17.971512,83.503617
 VOVZ,INS Dega Airport (visakhapatnam international airport),Visakhapatnam,IN,17.723506,83.227729
+VOYK,Yelahanka Air Force Station,Yelahanka,IN,13.135499954223633,77.60600280761719
 VQGP,Gelephu Airport,Gelephu,BT,26.88456,90.46412
 VQPR,Paro International Airport,Paro,BT,27.4032,89.424599
 VRDA,Maafaru International Airport,Noonu Atoll,MV,5.817407,73.468404
@@ -4381,6 +4396,7 @@ VVTS,Tan Son Nhat International Airport,Ho Chi Minh City,VN,10.8188,106.652
 VVVD,Van Don International Airport,Van Don,VN,21.120693,107.41539
 VVVH,Vinh Airport,Vinh,VN,18.7376003265,105.67099762
 VYDW,Dawei Airport,Dawei,MM,14.1039,98.203598
+VYHB,Hmawbi Air Base,Hmawbi,MM,17.11669921875,96.06670379638672
 VYHH,Heho Airport,Heho,MM,20.74714,96.792029
 VYKG,Kengtung Airport,Kengtung,MM,21.301599502563477,99.63600158691406
 VYKP,Kyaukpyu Airport,Kyaukpyu,MM,19.42639923095703,93.53479766845703
@@ -4450,6 +4466,7 @@ WAVV,Wamena Airport,Wamena,ID,-4.097324,138.952417
 WAWD,Matahora Airport,Wangi-wangi Island,ID,-5.292123,123.636233
 WAWP,Sangia Nibandera Airport,Kolaka,ID,-4.338158,121.524047
 WAYY,Mozes Kilangin Airport,Timika,ID,-4.52978,136.887388
+WBAK,Anduki Airport,Seria,BN,4.635158,114.378748
 WBGB,Bintulu Airport,Bintulu,MY,3.12385010719,113.019996643
 WBGG,Kuching International Airport,Kuching,MY,1.487364,110.352859
 WBGJ,Limbang Airport,Limbang,MY,4.808300018310547,115.01000213623047
@@ -4458,17 +4475,21 @@ WBGM,Marudi Airport,Marudi,MY,4.178734,114.330318
 WBGR,Miri Airport,Miri,MY,4.32201,113.987
 WBGS,Sibu Airport,Sibu,MY,2.2616,111.985001
 WBGZ,Bario Airport,Bario,MY,3.734648,115.478548
+WBKB,Kota Belud Airport,Kota Belud,MY,6.36516,116.471001
 WBKD,Lahad Datu Airport,Lahad Datu,MY,5.03241,118.32376
 WBKK,Kota Kinabalu International Airport,Kota Kinabalu,MY,5.932743,116.049324
 WBKL,Labuan Airport,Labuan,MY,5.301667,115.248333
 WBKS,Sandakan Airport,Sandakan,MY,5.900899887084961,118.05899810791016
+WBKU,Kuala Penyu Airport,Kuala Penyu,MY,5.597195,115.582695
 WBKW,Tawau Airport,Tawau,MY,4.31338,118.12152
 WBMU,Mulu Airport,Mulu,MY,4.048329830169678,114.80500030517578
 WBSB,Brunei International Airport,Bandar Seri Begawan,BN,4.9442,114.928001
 WIBB,Sultan Syarif Kasim II International Airport / Roesmin Nurjadin AFB,Pekanbaru,ID,0.458647,101.444321
 WIBD,Pinang Kampai Airport,Dumai,ID,1.609026,101.433493
 WIBJ,Japura Airport,Rengat-Sumatra Island,ID,-0.352808,102.334999
+WIBT,Raja Haji Abdullah Airport,Tanjung Balai-Karinmunbesar Island,ID,1.05287,103.391517
 WICA,Kertajati International Airport,Kertajati,ID,-6.647384,108.165561
+WICB,Budiarto Airport,Tangerang-Java Island,ID,-6.293171,106.57
 WICC,Husein Sastranegara International Airport,Bandung,ID,-6.90063,107.575996
 WIDD,Hang Nadim International Airport,Batam,ID,1.12103,104.119003
 WIDN,Raja Haji Fisabilillah International Airport,Tanjung Pinang-Bintan Island,ID,0.92397,104.53341
@@ -4496,13 +4517,20 @@ WITC,Cut Nyak Dhien Airport,Kuala Pesisir,ID,4.040998,96.253312
 WITK,Rembele Airport,Takengon,ID,4.72113,96.851943
 WITL,Lhok Sukon Airport,Lhok Sukon-Sumatra Island,ID,5.06951,97.259201
 WITT,Sultan Iskandar Muda International Airport,Banda Aceh,ID,5.525087,95.41997
+WMAD,Bentong Airport,Bentong,MY,3.550811,101.894041
 WMAP,Kluang Airport,Kluang,MY,2.04138994217,103.306999207
+WMAV,Muar / Bakri Airport,Muar,MY,2.05215,102.65795
+WMBA,Sitiawan Airport,Sitiawan,MY,4.2222,100.6993
+WMBB,Sungai Petani Airport,Sungai Petani,MY,5.623781,100.541963
+WMBF,Ulu Bernam Airport,Ulu Bernam,MY,3.740934,101.168504
+WMBI,Taiping (Tekah) Airport,Taiping,MY,4.866432,100.715381
 WMBT,Tioman Airport,Tioman Island,MY,2.81818,104.160004
 WMKA,Sultan Abdul Halim Airport,Alor Satar,MY,6.189670085906982,100.39800262451172
 WMKB,RMAF Butterworth Air Base,Butterworth,MY,5.46592,100.390999
 WMKC,Sultan Ismail Petra Airport,Kota Baharu,MY,6.1668500900268555,102.29299926757812
 WMKD,Kuantan Airport,Kuantan,MY,3.7753899097442627,103.20899963378906
 WMKE,Kerteh Airport,Kerteh,MY,4.53722,103.427002
+WMKF,Simpang Airport,Kuala Lumpur,MY,3.1122500896453857,101.7030029296875
 WMKI,Sultan Azlan Shah Airport,Ipoh,MY,4.56733,101.091643
 WMKJ,Senai International Airport,Johor Bahru,MY,1.64131,103.669998
 WMKK,Kuala Lumpur International Airport,Sepang,MY,2.74558,101.709999
@@ -4510,6 +4538,7 @@ WMKL,Langkawi International Airport,Langkawi,MY,6.32973,99.728699
 WMKM,Malacca International Airport,Malacca,MY,2.265613,102.252778
 WMKN,Sultan Mahmud Airport,Kuala Terengganu,MY,5.3826398849487305,103.10299682617188
 WMKP,Penang International Airport,Penang,MY,5.296303,100.276185
+WMPA,Pulau Pangkor Airport,Pangkor Island,MY,4.244719982147217,100.5530014038086
 WMSA,Sultan Abdul Aziz Shah International Airport,Subang,MY,3.13058,101.549004
 WPDB,"Commander in Chief of FALINTIL, Kay Rala Xanana Gusmão, International Airport",Suai,TL,-9.301856,125.286302
 WPDL,Presidente Nicolau Lobato International Airport,Dili,TL,-8.546562,125.524507
@@ -4542,6 +4571,7 @@ YBIE,Bedourie Airport,Bedourie,AU,-24.3461,139.460007
 YBKE,Bourke Airport,,AU,-30.039199829101562,145.95199584960938
 YBLA,Benalla Airport,Benalla,AU,-36.551899,146.007004
 YBMA,Mount Isa Airport,Mount Isa,AU,-20.66638,139.488468
+YBMC,Sunshine Coast Airport,Maroochydore,AU,-26.593324,153.08319
 YBMK,Mackay Airport,Mackay,AU,-21.170816,149.182588
 YBNA,Ballina Byron Gateway Airport,Ballina,AU,-28.833236,153.561471
 YBNS,Bairnsdale Airport,Bairnsdale,AU,-37.887539,147.569379

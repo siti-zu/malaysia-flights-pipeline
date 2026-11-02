@@ -31,3 +31,11 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   malaysia_flights_dbt:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
+
+vars:
+  # The four airports the pipeline collects (same as AIRPORTS in ingestion/config.py).
+  home_airports: ['WMKK', 'WMSA', 'WMKP', 'WBKK']
