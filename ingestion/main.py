@@ -86,7 +86,6 @@ def run_day(client, conn, query_date, run_id):
             )
             status_code = result.status_code
             credits_left = result.credits_left
-            row_count = len(result.flights)
 
             load_flights(
                 conn,
@@ -96,6 +95,8 @@ def run_day(client, conn, query_date, run_id):
                 query_date=query_date,
                 run_id=run_id,
             )
+            # Set only after the load, so a failed load doesn't log rows it never wrote.
+            row_count = len(result.flights)
             print(f"{label}: {row_count} rows loaded")
 
         except requests.HTTPError as e:
@@ -105,6 +106,8 @@ def run_day(client, conn, query_date, run_id):
             failures += 1
             print(f"{label}: HTTP {status_code}: {e}")
             stopped_early = status_code in STOP_RUN_STATUSES
+            if stopped_early:
+                print(f"Stopping run on {query_date}: HTTP {status_code} will affect all remaining calls.")
 
         except Exception as e:
             error_message = f"{type(e).__name__}: {e}"
@@ -128,7 +131,6 @@ def run_day(client, conn, query_date, run_id):
             stopped_early = True
 
         if stopped_early:
-            print(f"Stopping run on {query_date}: HTTP {status_code} will affect all remaining calls.")
             break
 
     print(f"Done: {attempted - failures} of {attempted} calls succeeded "
@@ -149,6 +151,7 @@ def main():
     client = OpenSkyClient()
     total_failures = 0
     days_processed = 0
+    stopped_early = False
 
     run_id = uuid.uuid4()
 
@@ -164,7 +167,8 @@ def main():
 
     print(f"Processed {days_processed} of {len(query_dates)} days, {total_failures} calls failed.")
 
-    if total_failures:
+    # A run can stop early with no failed calls, if api_runs couldn't be written.
+    if total_failures or stopped_early:
         sys.exit(1)
 
 if __name__ == "__main__":

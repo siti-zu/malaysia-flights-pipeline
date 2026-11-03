@@ -38,7 +38,8 @@ SELECT
     COUNT(movements.direction) FILTER (WHERE movements.direction = 'departure') AS departures,
     COUNT(movements.direction) FILTER (WHERE movements.direction = 'arrival') AS arrivals,
     COUNT(movements.direction) AS movements,
-    ROUND(COUNT(movements.direction)::numeric / MAX(days.days_covered), 1) AS avg_movements_per_day,
+    -- NULLIF so an empty fct_flights, as in CI, gives null rather than division by zero.
+    ROUND(COUNT(movements.direction)::numeric / NULLIF(MAX(days.days_covered), 0), 1) AS avg_movements_per_day,
     RANK() OVER (
         PARTITION BY airport_hours.airport_code
         ORDER BY COUNT(movements.direction) DESC

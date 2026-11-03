@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    env:
+      # config.py won't import without these. The tests use fakes, so the values
+      # are never used and no real credentials are needed.
+      DB_HOST: unused
+      DB_PORT: "5432"
+      DB_NAME: unused
+      DB_USER: unused
+      DB_PASSWORD: unused
+      CLIENT_ID: unused
+      CLIENT_SECRET: unused
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: |
+          uv venv
+          uv pip install -r requirements.txt -r requirements-dev.txt
+      - name: Run pytest
+        run: uv run python -m pytest
+
+  dbt:
+    runs-on: ubuntu-latest
+    env:
+      # A throwaway database that only exists for this job, so these aren't secrets.
+      # DB_USER must match the user in malaysia_flights_dbt/profiles.yml.
+      DB_HOST: localhost
+      DB_PORT: "5432"
+      DB_NAME: flights
+      DB_USER: flights
+      DB_PASSWORD: ci_only_password
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: flights
+          POSTGRES_USER: flights
+          POSTGRES_PASSWORD: ci_only_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U flights -d flights"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: |
+          uv venv
+          uv pip install -r requirements.txt
+      - name: Create the raw tables
+        run: psql -v ON_ERROR_STOP=1 -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -f sql/init.sql
+        env:
+          PGPASSWORD: ${{ env.DB_PASSWORD }}
+      - name: Install dbt packages
+        run: uv run dbt deps --project-dir malaysia_flights_dbt --profiles-dir malaysia_flights_dbt
+      - name: dbt build
+        run: uv run dbt build --project-dir malaysia_flights_dbt --profiles-dir malaysia_flights_dbt

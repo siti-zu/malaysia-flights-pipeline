@@ -23,6 +23,7 @@ Each run makes one API call per airport, direction and day: 4 airports × 2 dire
 - `requests` for the API, with `urllib3` retries
 - `psycopg` 3 for PostgreSQL
 - PostgreSQL 16 in Docker
+- GitHub Actions for CI
 - dbt Core with the Postgres adapter, plus the [dbt_utils](https://hub.getdbt.com/dbt-labs/dbt_utils/latest/) package
 
 ## Quick start
@@ -110,7 +111,8 @@ Data is loaded one airport, direction and day at a time. The loader deletes that
 - Every API call is logged to `raw.api_runs` with its status code, row count, remaining credits and any error message.
 - One failed call doesn't stop the others. If a single airport fails, the rest of the day still loads, and the run exits with code 1 so a scheduler can flag it.
 - `401` (bad credentials) and `429` (out of credits) stop the whole run straight away, because every remaining call would fail the same way and still be logged as a failure.
-- If the database can't be reached, the run stops with a clear message instead of carrying on without an audit trail.
+- If the database can't be reached, the run stops with a clear message instead of carrying on without an audit trail, and exits with code 1 even if no API call failed.
+- If the API call works but the load fails, the row keeps the API's status code, has an `error_message` and no `row_count`. Rows logged before this was fixed still have a `row_count` (8 rows, all for 2026-10-04, which later re-runs loaded cleanly).
 
 <!-- Screenshot: backfill stopping cleanly at the credit limit -->
 
@@ -133,13 +135,22 @@ Every run gets a UUID, written to every row it creates in both `raw.flights` and
 Two dbt checks read `raw.api_runs` to catch a pipeline that stopped or only partly loaded:
 
 - **Source freshness**: `dbt source freshness` warns if the newest call in `raw.api_runs` (by `run_at`) is more than 26 hours old, which means the daily run has stopped. The limit is 26 hours rather than 24, so a run that starts or finishes a little late doesn't trigger it. It's configured in [_sources.yml](malaysia_flights_dbt/models/staging/_sources.yml).
-- **Completeness**: the singular test [assert_every_day_has_8_successful_calls.sql](malaysia_flights_dbt/tests/assert_every_day_has_8_successful_calls.sql) fails for any `query_date` without a successful call for all 4 airports × 2 directions, and lists each such date with the number of successful calls it has. A `404` counts as success, because OpenSky returns it when an airport had no flights that day. A day that failed and was later re-run successfully passes, and a day with no calls at all fails. It runs with `dbt test` and `dbt build`.
+- **Completeness**: the singular test [assert_every_day_has_8_successful_calls.sql](malaysia_flights_dbt/tests/assert_every_day_has_8_successful_calls.sql) fails for any `query_date` without a successful call for all 4 airports × 2 directions, and lists each such date with the number of successful calls it has. A `404` counts as success, because OpenSky returns it when an airport had no flights that day. A call with an `error_message` doesn't count, because the API can return `200` and the load still fail. A day that failed and was later re-run successfully passes, and a day with no calls at all fails. It runs with `dbt test` and `dbt build`.
 
 ```bash
 cd malaysia_flights_dbt
 uv run dbt source freshness
 uv run dbt test --select assert_every_day_has_8_successful_calls
 ```
+
+### CI
+
+[.github/workflows/ci.yml](.github/workflows/ci.yml) runs on every push to `main` and every pull request, with two jobs:
+
+- **`pytest`** runs the Python tests. It uses dummy environment variables, because `config.py` won't import without them and the tests never use their values.
+- **`dbt`** starts a throwaway Postgres, creates the raw tables with [sql/init.sql](sql/init.sql), then runs `dbt deps` and `dbt build`.
+
+The raw tables are empty in CI, because the job doesn't call OpenSky. So `dbt build` proves that the project compiles, every model's SQL runs, the seeds load and tests on the seeds pass, but tests on flight data have no rows to check.
 
 ## Data model (so far)
 
@@ -321,7 +332,7 @@ What it shows:
 ## Known limitations
 
 - **Resuming a backfill is manual.** The pipeline doesn't yet read `raw.api_runs` to skip days that already loaded.
-- **The ingestion code has no automated tests.** dbt tests cover the staging models and all marts, but there are no pytest tests yet.
+- **The ingestion code has few automated tests.** dbt tests cover the staging models and all marts, but pytest only covers date and argument handling ([tests/test_dates.py](tests/test_dates.py)), the API client ([tests/test_extract.py](tests/test_extract.py)) and the run logic in `run_day` ([tests/test_run_day.py](tests/test_run_day.py)) so far, using fakes, so they use no credits or database. The token manager and loading aren't tested yet. Install pytest with `uv pip install -r requirements-dev.txt`, then run them from the repo root with `uv run python -m pytest`; plain `pytest` can't find the `ingestion` package. Importing `ingestion` needs the variables from `.env` to be set, though the tests never use their values.
 - **8 aircraft have an operator code that isn't in `stg_airlines`** (as of 2026-11-02), down from 17 before the `airline_overrides` seed was added. The relationship test on `stg_aircraft.operator_icao` is set to warn rather than fail for this reason.
 
 ## Roadmap
@@ -329,7 +340,8 @@ What it shows:
 - [ ] dbt staging models: trim callsigns, convert Unix times to timestamps, deduplicate flights
 - [x] dbt reporting marts: top routes, busiest hours by airport, flights per airline
 - [ ] dbt marts: daily traffic trends over time
-- [ ] pytest tests for ingestion, and CI with GitHub Actions (dbt tests for the staging models and `fct_flights` are done)
+- [x] CI with GitHub Actions: pytest, and `dbt build` against a throwaway Postgres
+- [ ] More pytest tests for ingestion: the token manager and loading (dates, arguments, the API client and `run_day` are done)
 - [ ] Orchestration with Airflow, for daily scheduling and automatic backfill resume
 - [ ] Move to a cloud warehouse
 

@@ -5,6 +5,8 @@
 -- that day, and ingestion stores it as an empty result. Slices are counted
 -- distinctly, so a call that failed and later succeeded on a re-run passes.
 -- Dates with no calls at all are included too, so a skipped day fails.
+-- A call with an error_message doesn't count: the API can return 200 and the
+-- load still fail, in which case the status alone would look like a success.
 
 WITH successful_slices AS (
     SELECT
@@ -12,6 +14,7 @@ WITH successful_slices AS (
         COUNT(DISTINCT (airport, direction)) AS successful_calls
     FROM {{ source('raw', 'api_runs') }}
     WHERE status_code IN (200, 404)
+      AND error_message IS NULL
     GROUP BY query_date
 ),
 
