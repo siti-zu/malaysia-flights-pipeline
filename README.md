@@ -1,3 +1,5 @@
+[![CI](https://github.com/siti-zu/malaysia-flights-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/siti-zu/malaysia-flights-pipeline/actions/workflows/ci.yml)
+
 # malaysia-flights-pipeline
 
 A daily data pipeline that collects flight arrivals and departures at four Malaysian airports from the [OpenSky Network](https://opensky-network.org/) API and loads them into PostgreSQL. The airports are Kuala Lumpur International (KLIA, `WMKK`), Sultan Abdul Aziz Shah in Subang (`WMSA`), Penang International (`WMKP`) and Kota Kinabalu International (`WBKK`). dbt models to clean and model the data will follow.
