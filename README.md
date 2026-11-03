@@ -34,6 +34,7 @@ Each run makes one API call per airport, direction and day: 4 airports × 2 dire
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [uv](https://docs.astral.sh/uv/getting-started/installation/)
+- `make` (already on macOS and most Linux systems)
 - A free [OpenSky Network](https://opensky-network.org/) account, with an API client created on your account page (this gives you a client ID and secret)
 
 ### 1. Clone and configure
@@ -48,7 +49,8 @@ Fill in `.env`. The database values are used both to create the Postgres contain
 
 ```bash
 DB_HOST=localhost
-DB_PORT=5433          # any free port; 5433 avoids clashing with a local Postgres on 5432
+# Any free port; 5433 avoids clashing with a local Postgres on 5432
+DB_PORT=5433
 DB_NAME=flights
 DB_USER=flights
 DB_PASSWORD=change-me
@@ -57,46 +59,27 @@ CLIENT_ID=your-opensky-client-id
 CLIENT_SECRET=your-opensky-client-secret
 ```
 
-### 2. Start Postgres
+### 2. Set up and start Postgres
 
 ```bash
-docker compose up -d
+make install
+make up
 ```
 
 On first start, the scripts in [sql/](sql/) create the `raw` schema and tables.
 
-### 3. Create the environment
+### 3. Run it
 
 ```bash
-uv venv --python 3.13
-uv pip install -r requirements.txt
+make ingest                                      # yesterday (UTC), the default daily run
+make ingest DATE=2026-09-15                      # a single date
+make backfill START=2026-09-01 END=2026-09-07    # an inclusive range; END defaults to yesterday
+make transform                                   # load the seeds, build every dbt model and run every test
 ```
 
-### 4. Run it
+Dates must be yesterday or earlier: OpenSky processes each day's flights in a nightly batch.
 
-```bash
-# Yesterday (UTC), the default daily run
-uv run python -m ingestion.main
-
-# A single date
-uv run python -m ingestion.main --date 2026-09-15
-
-# An inclusive date range (--end defaults to yesterday)
-uv run python -m ingestion.main --start 2026-09-01 --end 2026-09-07
-
-# The last 7 days, ending yesterday
-uv run python -m ingestion.main --days 7
-```
-
-Dates must be yesterday or earlier: OpenSky processes each day's flights in a nightly batch. Run `--help` for all options.
-
-### 5. Build the dbt models
-
-```bash
-cd malaysia_flights_dbt
-uv run dbt deps    # installs dbt_utils (pinned in package-lock.yml); once, and after changing packages.yml
-uv run dbt build   # loads the seeds, builds every model and runs every test
-```
+Run `make help` to list every command. `make down` stops Postgres and keeps the data. For options without a `make` command, such as the last N days, call the module directly: `uv run python -m ingestion.main --days 7`. Run it with `--help` for all options.
 
 ## How it works
 
@@ -140,9 +123,8 @@ Two dbt checks read `raw.api_runs` to catch a pipeline that stopped or only part
 - **Completeness**: the singular test [assert_every_day_has_8_successful_calls.sql](malaysia_flights_dbt/tests/assert_every_day_has_8_successful_calls.sql) fails for any `query_date` without a successful call for all 4 airports × 2 directions, and lists each such date with the number of successful calls it has. A `404` counts as success, because OpenSky returns it when an airport had no flights that day. A call with an `error_message` doesn't count, because the API can return `200` and the load still fail. A day that failed and was later re-run successfully passes, and a day with no calls at all fails. It runs with `dbt test` and `dbt build`.
 
 ```bash
-cd malaysia_flights_dbt
-uv run dbt source freshness
-uv run dbt test --select assert_every_day_has_8_successful_calls
+make freshness
+cd malaysia_flights_dbt && uv run dbt test --select assert_every_day_has_8_successful_calls
 ```
 
 ### CI
@@ -186,7 +168,7 @@ Measured on 50,410 flights from 2026-09-04 to 2026-11-02:
 | `est_departure_airport` → `dim_airport` | 31,083 | 0 | 100% | Before the airports seed started including every airport used in the flight data, 1.5% were unmatched. |
 | `est_arrival_airport` → `dim_airport` | 43,622 | 0 | 100% | Before the same change, 0.3% were unmatched. |
 
-The seed scripts live in [scripts/](scripts/) and are run as modules from the repo root, like the ingestion. That way `scripts.build_aircraft_seed` can import `ingestion` without changing `sys.path`.
+The seed scripts live in [scripts/](scripts/) and are run as modules from the repo root, like the ingestion. That way `scripts.build_aircraft_seed` can import `ingestion` without changing `sys.path`. `make seeds` runs all three.
 
 **`airlines` seed**: a dbt seed at [malaysia_flights_dbt/seeds/airlines.csv](malaysia_flights_dbt/seeds/airlines.csv) that maps 3-letter ICAO airline codes (`airline_code`) to names (`airline_name`), so airlines can be identified from the first three letters of a callsign. It's built from OpenFlights' `airlines.dat`. Some ICAO codes appear more than once in that file, because codes from defunct airlines get reused, so the seed keeps one name per code and prefers the active airline. To regenerate it:
 
@@ -217,7 +199,7 @@ python -m scripts.build_aircraft_seed
 
 ## Results
 
-Three reporting marts join `fct_flights` to the dimensions and answer the project's questions. They complete the lineage from `raw.flights` to the answers: `raw.flights → stg_flights → fct_flights → rpt_*`, with the seeds feeding in through the dimensions. Run `uv run dbt docs generate && uv run dbt docs serve` in `malaysia_flights_dbt/` to see the graph.
+Three reporting marts join `fct_flights` to the dimensions and answer the project's questions. They complete the lineage from `raw.flights` to the answers: `raw.flights → stg_flights → fct_flights → rpt_*`, with the seeds feeding in through the dimensions. Run `make docs` to see the graph.
 
 ![dbt lineage graph: the seeds and raw.flights flow through staging models into fct_flights and the three dimensions, which feed the three rpt_ marts; raw.api_runs feeds the completeness test](docs/images/dbt_lineage_graph.png)
 
@@ -334,7 +316,7 @@ What it shows:
 ## Known limitations
 
 - **Resuming a backfill is manual.** The pipeline doesn't yet read `raw.api_runs` to skip days that already loaded.
-- **The ingestion code has few automated tests.** dbt tests cover the staging models and all marts, but pytest only covers date and argument handling ([tests/test_dates.py](tests/test_dates.py)), the API client ([tests/test_extract.py](tests/test_extract.py)) and the run logic in `run_day` ([tests/test_run_day.py](tests/test_run_day.py)) so far, using fakes, so they use no credits or database. The token manager and loading aren't tested yet. Install pytest with `uv pip install -r requirements-dev.txt`, then run them from the repo root with `uv run python -m pytest`; plain `pytest` can't find the `ingestion` package. Importing `ingestion` needs the variables from `.env` to be set, though the tests never use their values.
+- **The ingestion code has few automated tests.** dbt tests cover the staging models and all marts, but pytest only covers date and argument handling ([tests/test_dates.py](tests/test_dates.py)), the API client ([tests/test_extract.py](tests/test_extract.py)) and the run logic in `run_day` ([tests/test_run_day.py](tests/test_run_day.py)) so far, using fakes, so they use no credits or database. The token manager and loading aren't tested yet. Run them with `make test`, which calls `python -m pytest` because plain `pytest` can't find the `ingestion` package. Importing `ingestion` needs the variables from `.env` to be set, though the tests never use their values.
 - **8 aircraft have an operator code that isn't in `stg_airlines`** (as of 2026-11-02), down from 17 before the `airline_overrides` seed was added. The relationship test on `stg_aircraft.operator_icao` is set to warn rather than fail for this reason.
 
 ## Roadmap
