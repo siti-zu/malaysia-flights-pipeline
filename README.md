@@ -2,7 +2,7 @@
 
 # malaysia-flights-pipeline
 
-A daily data pipeline that tracks flights at four Malaysian airports. Python pulls arrivals and departures from the [OpenSky Network](https://opensky-network.org/) API into PostgreSQL, dbt turns the raw JSON into a tested star schema, and three reporting marts answer one question each: which routes are busiest, when are the airports busiest, and which airlines fly most?
+A daily data pipeline that tracks flights at four Malaysian airports. Python pulls arrivals and departures from the [OpenSky Network](https://opensky-network.org/) API into PostgreSQL, dbt turns the raw JSON into a tested star schema, and three reporting marts answer one question each: which routes are busiest, when are the airports busiest, and which airlines fly most? A fourth mart tracks each airport's traffic day by day.
 
 The airports are Kuala Lumpur International (KLIA, `WMKK`), Sultan Abdul Aziz Shah in Subang (`WMSA`), Penang International (`WMKP`) and Kota Kinabalu International (`WBKK`).
 
@@ -16,7 +16,7 @@ OpenSky REST API  ──►  Python ingestion  ──►  PostgreSQL: raw schema
   /flights/departure                           raw.api_runs
 ```
 
-![dbt lineage graph: the seeds and raw.flights flow through staging models into fct_flights and the three dimensions, which feed the three rpt_ marts; raw.api_runs feeds the completeness test](docs/images/dbt_lineage_graph.png)
+![dbt lineage graph: the seeds and raw.flights flow through staging models into fct_flights and the three dimensions, which feed the four rpt_ marts; raw.api_runs feeds the completeness test](docs/images/dbt_lineage_graph.png)
 
 Green nodes are the raw sources. Reading left to right: seeds and sources, staging views, the fact and dimension tables, then the reporting marts. `raw.api_runs` feeds only the completeness test, since it records API calls, not flights. Run `make docs` to explore the graph.
 
@@ -168,7 +168,7 @@ Both currently pass, and the completeness test finds no missing days.
 
 ### Tests and CI
 
-`make transform` runs 49 dbt data tests, including a test on each reporting mart's grain, so a join that doubles rows fails the build. `make test` runs 51 pytest tests covering date handling, the API client and the run's failure rules, using fakes so they spend no credits. [CI](.github/workflows/ci.yml) runs both on every push and pull request, with `dbt build` against a throwaway Postgres.
+`make transform` runs 55 dbt data tests, including a test on each reporting mart's grain, so a join that doubles rows fails the build. `make test` runs 68 pytest tests covering date handling, the API client, the token manager, the run's failure rules and loading. They spend no credits: OpenSky is always faked, and the loading tests use the real Postgres but roll back everything they write. [CI](.github/workflows/ci.yml) runs both on every push and pull request against a throwaway Postgres, with `dbt build` running on a small sample of real flights.
 
 ## Results
 
@@ -258,18 +258,17 @@ Another 1,158 flights (2.3%) have no callsign, so they can't be assigned to an a
 - **Tracked time isn't block time.** `flight_duration_minutes` reflects when an aircraft was tracked, roughly the airborne portion, and runs about half the scheduled block time on short routes. `first_seen` and `last_seen` depend on receiver coverage, so they aren't exact take-off and landing times either.
 - **Airports are estimates.** OpenSky infers the other end of each flight from where it lost or found the aircraft. It's unknown for 51% of arrivals and 43% of departures, so only 24,719 of the 51,310 flights (48%) have both airports and can appear in the top routes. Coverage is also uneven, as the KLIA under-count shows.
 - **The aircraft snapshot is old.** Aircraft details come from OpenSky's August 2025 database, pinned so the seed is reproducible. 91% of aircraft (2,373 of 2,596) matched. Unmatched aircraft are mostly newer airframes not yet in that snapshot. Where it matched, `operator` is blank for 76%, so airlines come from the callsign instead.
-- **A 404 is treated as "no flights".** OpenSky returns `404` when it has nothing for a query, so the pipeline stores an empty result and counts the call as a success. That may hide missing data: all 7 of the 404s are at Penang, on 4 dates (2026-09-21 to 09-23, and 10-20), and Penang normally has about 37 arrivals and 26 departures a day. Those days are probably gaps in OpenSky's data rather than days with no flights, and the completeness test won't flag them.
+- **A 404 is treated as "no flights".** OpenSky returns `404` when it has nothing for a query, so the pipeline stores an empty result and counts the call as a success. That may hide missing data: all 7 of the 404s are at Penang, on 4 dates (2026-09-21 to 09-23, and 10-20), and Penang normally has about 37 arrivals and 26 departures a day. Those days are probably gaps in OpenSky's data rather than days with no flights, and the completeness test won't flag them. They show as near-zero days in `rpt_daily_traffic`.
 - **Running it depends on one Mac.** The schedule needs the Mac on and Docker running, and missed days need a manual backfill ([details](docs/operations.md#daily-schedule)).
-- **Some of the code is untested.** The token manager and database loading have no pytest tests yet, and the CI build runs on empty raw tables, so dbt tests on flight data only run locally.
 
 ## Roadmap
 
 - [x] dbt staging models, deduplicated fact table, dimensions and reporting marts
 - [x] CI with GitHub Actions
 - [x] Daily scheduling with launchd
-- [ ] dbt marts: daily traffic trends over time
-- [ ] More pytest tests: the token manager and loading
-- [ ] Load sample flights in CI, so dbt tests have data to check
+- [x] dbt marts: daily traffic trends over time
+- [x] More pytest tests: the token manager and loading
+- [x] Load sample flights in CI, so dbt tests have data to check
 - [ ] Orchestration with Airflow, for automatic backfill resume
 - [ ] Move to a cloud warehouse
 

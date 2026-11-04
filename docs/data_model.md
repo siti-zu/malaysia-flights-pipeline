@@ -25,7 +25,9 @@ Not every flight has a match, so always join the dimensions with a `LEFT JOIN`. 
 
 ## Reporting marts
 
-Each mart has a test on its grain, so a join that fans out fails the build instead of quietly inflating the counts. That can happen if a dimension ever gets two rows for the same key, or if a mart joins on something that isn't unique, such as an airport's name or city: the old and new Dhaka codes (`VGZR` and `VGHS`) are two rows for the same airport. `rpt_top_routes` has a `unique` test on `route`. `rpt_busiest_hours` (one row per airport and hour) and `rpt_flights_per_airline` (one row per airline code) use `dbt_utils.unique_combination_of_columns`. Unlike `unique`, it also catches duplicate rows with a null key.
+Each mart has a test on its grain, so a join that fans out fails the build instead of quietly inflating the counts. That can happen if a dimension ever gets two rows for the same key, or if a mart joins on something that isn't unique, such as an airport's name or city: the old and new Dhaka codes (`VGZR` and `VGHS`) are two rows for the same airport. `rpt_top_routes` has a `unique` test on `route`. `rpt_busiest_hours` (one row per airport and hour), `rpt_daily_traffic` (one row per airport and day) and `rpt_flights_per_airline` (one row per airline code) use `dbt_utils.unique_combination_of_columns`. Unlike `unique`, it also catches duplicate rows with a null key.
+
+`rpt_daily_traffic` only keeps days that are fully covered. A `query_date` is a UTC day and Malaysia is 8 hours ahead, so the first loaded date is missing its first 8 hours, and the day after the last loaded date is mostly missing. Without this, a trend would end in a false drop.
 
 ## Seeds
 

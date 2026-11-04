@@ -42,7 +42,9 @@ What it doesn't handle:
 
 [.github/workflows/ci.yml](../.github/workflows/ci.yml) runs on every push to `main` and every pull request, with two jobs:
 
-- **`pytest`** runs the Python tests. It uses dummy environment variables, because `config.py` won't import without them and the tests never use their values.
-- **`dbt`** starts a throwaway Postgres, creates the raw tables with [sql/init.sql](../sql/init.sql), then runs `dbt deps` and `dbt build`.
+- **`pytest`** starts a throwaway Postgres, creates the raw tables with [sql/init.sql](../sql/init.sql) and runs the Python tests. OpenSky is faked, so its credentials are dummy values, which `config.py` needs in order to import.
+- **`dbt`** starts a throwaway Postgres, creates the raw tables, loads the sample flights, then runs `dbt deps` and `dbt build`.
 
-The raw tables are empty in CI, because the job doesn't call OpenSky. So `dbt build` proves that the project compiles, every model's SQL runs, the seeds load and tests on the seeds pass, but tests on flight data have no rows to check.
+CI doesn't call OpenSky, so [scripts/load_sample_flights.py](../scripts/load_sample_flights.py) loads [a sample of real flights](../tests/fixtures/sample_raw_flights.json): 323 rows from 2026-09-11 to 09-13, taken from about 1 in 10 aircraft. It deliberately includes a null `first_seen` and flights returned on two dates, so the dedupe and the null filter have real work to do. The script refuses to run if the raw tables already have data, because it would replace real days. `dbt_utils.at_least_one` fails the build if `fct_flights` or `rpt_daily_traffic` is empty, since other tests would pass on an empty table.
+
+The loading tests in `make test` need Postgres. Locally they're skipped if it isn't running, and in CI they fail instead. They write inside a transaction that's always rolled back, using an airport code real data can't have, so they're safe to run against your real database.

@@ -9,15 +9,30 @@ jobs:
   pytest:
     runs-on: ubuntu-latest
     env:
-      # config.py won't import without these. The tests use fakes, so the values
-      # are never used and no real credentials are needed.
-      DB_HOST: unused
+      # A throwaway database for the loading tests, so these aren't secrets.
+      DB_HOST: localhost
       DB_PORT: "5432"
-      DB_NAME: unused
-      DB_USER: unused
-      DB_PASSWORD: unused
+      DB_NAME: flights
+      DB_USER: flights
+      DB_PASSWORD: ci_only_password
+      # config.py won't import without these. The tests use fakes for OpenSky,
+      # so the values are never used and no real credentials are needed.
       CLIENT_ID: unused
       CLIENT_SECRET: unused
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: flights
+          POSTGRES_USER: flights
+          POSTGRES_PASSWORD: ci_only_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U flights -d flights"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.3
@@ -27,6 +42,10 @@ jobs:
         run: |
           uv venv
           uv pip install -r requirements.txt -r requirements-dev.txt
+      - name: Create the raw tables
+        run: psql -v ON_ERROR_STOP=1 -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -f sql/init.sql
+        env:
+          PGPASSWORD: ${{ env.DB_PASSWORD }}
       - name: Run pytest
         run: uv run python -m pytest
 
@@ -40,6 +59,9 @@ jobs:
       DB_NAME: flights
       DB_USER: flights
       DB_PASSWORD: ci_only_password
+      # config.py won't import without these, and the sample loader imports it.
+      CLIENT_ID: unused
+      CLIENT_SECRET: unused
     services:
       postgres:
         image: postgres:16
@@ -67,6 +89,8 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -f sql/init.sql
         env:
           PGPASSWORD: ${{ env.DB_PASSWORD }}
+      - name: Load the sample flights
+        run: uv run python -m scripts.load_sample_flights
       - name: Install dbt packages
         run: uv run dbt deps --project-dir malaysia_flights_dbt --profiles-dir malaysia_flights_dbt
       - name: dbt build

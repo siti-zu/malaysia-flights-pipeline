@@ -9,6 +9,8 @@ models:
         data_tests:
           - unique
           - not_null
+          # Tests pass on an empty table, so this makes sure the others had rows to check.
+          - dbt_utils.at_least_one
 
       - name: icao24
         description: "The ICAO24 transponder address of the aircraft."
@@ -145,3 +147,26 @@ models:
         description: "Number of deduplicated flights."
         data_tests:
           - greater_than_zero
+
+  - name: rpt_daily_traffic
+    description: "One row per home airport and day in Malaysia time, with departures, arrivals and a 7-day average. Only fully covered days are kept. A day with a 404 shows a dip, which is probably missing OpenSky data rather than a quiet day."
+    data_tests:
+      # Grain: one row per airport and day. A duplicate code in dim_airport would double rows.
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [airport_code, traffic_date]
+    columns:
+      - name: airport_code
+        description: "One of the four home airports."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: "{{ var('home_airports') }}"
+      - name: traffic_date
+        description: "The day in Malaysia time. Departures use first_seen, arrivals use last_seen."
+        data_tests:
+          - not_null
+          - dbt_utils.at_least_one
+      - name: movements_7_day_avg
+        description: "Average movements over this day and the 6 before it. Null for an airport's first 6 days."
