@@ -84,6 +84,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 06a1dc,A7-CHC,,Gulfstream G700,GA7C,Qatar Executive,QQE
 06a1e6,A7-BFI,Boeing,Boeing 777-FDZ,B77L,Qatar Airways Cargo,QTR
 06a1e8,A7-BFK,Boeing,777 F,B77L,,QTR
+06a1ea,A7-BFM,Boeing,Boeing 777-F,B77L,,QTR
 06a1eb,A7-BFN,,,B77L,,
 06a1ed,A7-BFP,Boeing,777-FDZ,B77L,Qatar Air Cargo,QAC
 06a2b0,A7-BEL,Boeing,Boeing 777 300ER,B77W,,QTR
@@ -100,6 +101,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 06a2e4,A7-BHA,,,B789,,
 06a2e5,A7-BHB,,787-9 Dreamliner,B789,Qatar Airways,QTR
 06a2e6,A7-BHC,,787-9 Dreamliner,B789,Qatar Airways,QTR
+06a2e7,A7-BHD,,787-9 Dreamliner,B789,Qatar Airways,QTR
 06a2e8,A7-BHE,,,B789,,
 06a2e9,A7-BHF,,,B789,,
 06a2ea,A7-BHG,,,B789,,
@@ -130,6 +132,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 3c2efd,D-BURO,,,CL30,,
 3c4a07,D-ABPG,,Boeing 787-9 Dreamliner,B789,,
 3c4a13,D-ABPS,,Boeing 787-9 Dreamliner,B789,,
+3c4a21,D-ABQA,Bombardier,DHC-8 402,DH8D,Air Berlin,BER
 3c5827,D-AFAG,,,CL60,,
 3c6708,D-AIXH,Airbus,A350 941,A359,,DLH
 4001c8,VP-CGO,Bombardier,Global Express XRS,GLEX,,
@@ -202,6 +205,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 4ba945,TC-JJE,Boeing,777 3F2ER,B77W,,THY
 4ba94d,TC-JJM,Boeing,Boeing 777-3F2(ER),B77W,,THY
 4ba954,TC-JJT,Boeing,Boeing 777-3F2(ER),B77W,Turkish Airlines,THY
+4ba956,TC-JJV,Boeing,B777-3F2(ER),B77W,,THY
 4ba95a,TC-JJZ,Boeing,Boeing 777-3F2(ER),B77W,Turkish Airlines,THY
 4baa14,TC-JPT,Airbus,A320 232,A320,,THY
 4bb0e1,TC-LGA,,A350-941,A359,Turkish Airlines,THY
@@ -258,6 +262,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 4d20aa,9H-IGH,Bombardier,Bombardier Global 6000,GLEX,,
 4d20c8,9H-VFB,Bombardier,Bombardier Challenger 605,CL60,,
 4d20ca,9H-VFD,Bombardier,Bombardier Challenger 605,CL60,,
+4d20cb,9H-VFE,Bombardier,Bombardier Challenger 605,CL60,,
 4d20d7,9H-VJL,Bombardier,Bombardier Global 6000,GLEX,,
 4d20e2,9H-VFG,Bombardier,Bombardier Challenger 605,CL60,,
 4d20e3,9H-VFH,Bombardier,Bombardier Challenger 605,CL60,,
@@ -379,6 +384,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 7105b0,HZ-AR29,,,B789,,
 7105b1,HZ-AR32,,,B78X,,
 7105b2,HZ-AR33,,Boeing 787-10 Dreamliner,B78X,Saudia,SVA
+71ba13,HL7213,,,B738,,
 71ba15,HL7215,,Boeing 737 MAX 8,B38M,Jin Air,JNA
 71ba17,HL7217,,Boeing 737 MAX 8,B38M,Jin Air,JNA
 71ba18,HL7218,,Boeing 737 MAX 8,B38M,Jin Air,JNA
@@ -645,6 +651,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 7504cd,9M-XXQ,,A330-343,A333,Airasia X,XAX
 7504cf,9M-WBC,,AgustaWestland AW139,A139,,
 7504d0,9M-RAU,,,A320,,
+7504d1,9M-ITX,,Piper Archer TX,P28A,,
 7504d9,9M-CGA,,,AS50,,
 7504e0,9M-WCA,,,B738,,
 7504e7,9M-JPM,,Leonardo AW139,A139,,
@@ -708,6 +715,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 75057b,9M-WWA,,Boeing B737-86N(BCF),B738,MJets Air,KXP
 75057c,9M-WWB,,Boeing 737-86N(BCF),B738,MJets Air,KXP
 75057e,9M-XJA,,Airbus Helicopters H160B,H160,,
+750581,9M-LDT,,Boeing 737-86N,B738,Batik Air,BTK
 750582,9M-LNQ,,Boeing 737-8GP,B738,Batik Air,BTK
 750583,9M-LNY,,Boeing 737-8GP,B738,Batik Air,BTK
 750584,9M-VAF,,Airbus A321-251NX,A21N,AirAsia,AXM
@@ -818,6 +826,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 76bd46,9V-OJF,The Boeing Co.,787-9 Dreamliner,B789,Scoot,TGW
 76bd47,9V-OJG,,,B789,,
 76bd48,9V-OJH,,,B789,,
+76bd49,9V-OJI,,,B789,,
 76bd4a,9V-OJJ,The Boeing Co.,787-9 Dreamliner,B789,Scoot,TGW
 76ccd0,9V-SFP,Boeing,Boeing 747-412F,B744,,SQC
 76ccd1,9V-SFQ,Boeing,747 412F,B744,,SQC
@@ -1027,6 +1036,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 780a80,B-LBF,Airbus,A330 343E,A333,,HDA
 780a81,B-LBG,Airbus,A330 343E,A333,,HDA
 780a82,B-LBH,Airbus,A330 343E,A333,,CPA
+780a8d,B-KQT,Boeing,777 367ER,B77W,,CPA
 780a93,B-LBI,Airbus,A330 343E,A333,,HDA
 780a94,B-LBJ,Airbus,A330 343E,A333,,CPA
 780a98,B-KQZ,Boeing,Boeing 777-367(ER),B77W,,CPA
@@ -1039,6 +1049,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 780ac5,B-LEE,Airbus,A321 231SL,A321,,HKE
 780ac6,B-LEF,Airbus,A321 231SL,A321,,HKE
 780aca,B-5751,Boeing,737NG 85C/W,B738,,CXA
+780ad0,B-9926,Airbus,A320 214,A320,,CCA
 780af7,B-5779,Boeing,737NG 89P/W,B738,,CES
 780b01,B-6968,Airbus,A321 231SL,A321,,CSC
 780b1c,B-5771,Boeing,737NG 87L/W,B738,,CSZ
@@ -1162,6 +1173,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 7811db,B-1483,,,B738,,
 781209,B-1301,Boeing,737NG 800/W,B738,,CXA
 78120b,B-1303,,,B738,,
+78120c,B-1305,,,B738,,
 781231,B-1316,Boeing,737NG 800/W,B738,,CES
 781233,B-1318,,,B738,,
 781234,B-1319,,,B738,,
@@ -1171,6 +1183,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 78124a,B-1332,Boeing,737NG 800/W,B738,,CES
 78124b,B-1335,,,B738,,
 78124c,B-1336,,,B738,,
+7812c1,B-1353,,,B738,,
 7812dc,B-1392,,,B38M,,
 7812dd,B-1393,,,B38M,,
 7812de,B-1395,,,B38M,,
@@ -1179,6 +1192,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 7812e1,B-1398,,,B38M,,
 7812e2,B-1399,,,B38M,,
 7812e3,B-5999,,,GLF5,,
+7812e9,B-1376,,,B738,,
 7812eb,B-1390,,,B38M,,
 7812ec,B-1389,,,B38M,,
 7812ed,B-1387,,,B38M,,
@@ -1348,6 +1362,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 7818ab,B-30DR,,,A20N,,
 7818ac,B-30DS,,,A20N,,
 7818ad,B-30DT,,,A20N,,
+7818c7,B-20EA,,,B38M,,
 7818f3,B-30E2,,,A21N,,
 7818f5,B-30E6,,,A21N,,
 7818f6,B-30E7,,,A21N,,
@@ -1652,6 +1667,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 801404,VT-ILB,,,A21N,,
 801405,VT-ILC,,,A21N,,
 801408,VT-TQA,,A320-251N,A20N,Vistara,VTI
+80140b,VT-ILD,,,A21N,,
 80140c,VT-ILF,,,A21N,,
 801410,VT-ILM,,,A21N,,
 801411,VT-ILJ,,,A21N,,
@@ -1854,6 +1870,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 888093,VN-A332,Airbus,A321 231,A321,,HVN
 888096,VN-A668,Airbus,A320 214,A320,,PIA
 888099,VN-A335,Airbus,A321 231,A321,,HVN
+88809b,VN-A338,Airbus,A321 231,A321,,HVN
 88809c,VN-A339,Airbus,A321 231,A321,,HVN
 88809d,VN-A390,Airbus,A321 231,A321,,HVN
 88809e,VN-A392,Airbus,A321 231,A321,,HVN
@@ -1931,6 +1948,7 @@ icao24,registration,manufacturer,model,typecode,operator,operator_icao
 894097,A9C-FF,,,B789,,
 894098,A9C-FG,,,B789,,
 8940a0,A9C-FI,,,B789,,
+8940a1,A9C-FJ,,,B789,,
 8940c8,A9C-BRN,,,GA6C,,
 895052,V8-RBA,,,A20N,,
 895056,V8-RBB,,,A20N,,
@@ -2289,6 +2307,7 @@ a16018,N188TL,Cessna,680,C680,,
 a16058,N188W,Gulfstream Aerospace Corp,GVI (G650),GLF6,,
 a16629,N19DM,Gulfstream Aerospace,GV-SP (G550),,,
 a18eb4,N2QE,Bombardier Inc,BD-700-1A11,GL5T,,
+a19203,N200A,Gulfstream Aerospace,GV-SP (G550),GLF5,,
 a192f2,N200KP,Embraer,EMB-135BJ,E35L,,
 a1a12e,N204DD,Israel Aircraft Industries,GULFSTREAM 200,GALX,,
 a2ceec,N280KR,Iai Ltd,GULFSTREAM G280,G280,,
@@ -2325,6 +2344,7 @@ a8d261,N668EM,Gulfstream Aerospace,GIV-X (G450),GLF4,,
 a91338,N684MT,Gulfstream Aerospace Corp,GVI (G650ER),,,
 a951e5,N7WW,Airbus Helicopters Deutschland,MBB-BK117 D-3,,,
 a96f14,N707FH,Honda Aircraft Co Llc,HA-420,HDJT,,
+a9f2c6,N740CK,Boeing,747-4H6,B744,Kalitta Air,CKS
 aa0559,N745CK,Boeing,747-446,B744,Kalitta Air,CKS
 aa3103,N756HA,Bombardier Inc,BD-100-1A10,CL35,,
 aa5f7c,N768CK,Boeing,747-481F,,Kalitta Air,CKS

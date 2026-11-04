@@ -60,3 +60,7 @@ GROUP BY 1
 HAVING COUNT(*) > 1
 ORDER BY 2 DESC
 ```
+
+
+**dbt notes**
+- first_seen has null (id 6894 in raw.flights)
