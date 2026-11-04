@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.siti-zu.malaysia-flights.daily</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/sitizulaikha/malaysia-flights-pipeline/scripts/daily_run.sh</string>
+    </array>
+    <!-- 13:00 in the Mac's local time, by when OpenSky has yesterday's data. -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>13</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    <!-- Catches errors from before the script opens logs/daily.log. -->
+    <key>StandardOutPath</key>
+    <string>/Users/sitizulaikha/malaysia-flights-pipeline/logs/launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/sitizulaikha/malaysia-flights-pipeline/logs/launchd.log</string>
+</dict>
+</plist>

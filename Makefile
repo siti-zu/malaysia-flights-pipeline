@@ -9,7 +9,7 @@ DBT_PACKAGES := $(DBT_PROJECT_DIR)/dbt_packages
 
 .DEFAULT_GOAL := help
 # docs is also a folder, so without .PHONY make would say it's up to date.
-.PHONY: help install up down ingest backfill seeds transform test docs freshness
+.PHONY: help install up down ingest backfill seeds transform test docs freshness charts
 
 help: ## List the targets
 	@grep -hE '^[a-z]+:.*## ' $(MAKEFILE_LIST) | awk -F ':.*## ' '{printf "  %-10s %s\n", $$1, $$2}'
@@ -18,8 +18,8 @@ install: ## Create the Python environment and install dependencies
 	uv venv --python 3.13 --managed-python
 	uv pip install -r requirements.txt -r requirements-dev.txt
 
-up: ## Start Postgres in Docker
-	docker compose up -d
+up: ## Start Postgres in Docker and wait until it's ready
+	docker compose up -d --wait
 
 down: ## Stop Postgres (the data is kept)
 	docker compose down
@@ -48,6 +48,9 @@ docs: | $(DBT_PACKAGES) ## Generate and serve the dbt docs
 
 freshness: | $(DBT_PACKAGES) ## Warn if the daily run has stopped
 	$(DBT) source freshness
+
+charts: ## Redraw the README charts from the reporting marts
+	$(PYTHON) -m scripts.build_readme_charts
 
 # Only runs when the folder is missing, e.g. on a fresh clone.
 $(DBT_PACKAGES):
